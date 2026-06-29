@@ -1,0 +1,324 @@
+# Teoría Tema 2: Amplificadores - Electrónica Industrial
+
+## Índice de Contenidos
+- [1. Definiciones y Parámetros Fundamentales](#1-definiciones-y-parámetros-fundamentales)
+  - [Resistencia de Entrada](#resistencia-de-entrada)
+  - [Resistencia de Salida](#resistencia-de-salida)
+  - [Ganancias en Vacío](#ganancias-en-vacío)
+  - [Ganancias con Carga](#ganancias-con-carga)
+  - [Ganancias respecto a la Fuente de Señal](#ganancias-respecto-a-la-fuente-de-señal)
+- [2. Modelos de Primera Aproximación](#2-modelos-de-primera-aproximación)
+  - [Amplificador de Tensión](#amplificador-de-tensión)
+  - [Amplificador de Intensidad](#amplificador-de-intensidad)
+  - [Amplificador de Transimpedancia](#amplificador-de-transimpedancia)
+  - [Amplificador de Transconductancia](#amplificador-de-transconductancia)
+  - [Tabla Resumen de Condiciones Ideales](#tabla-resumen-de-condiciones-ideales)
+- [3. Amplificadores en Cascada](#3-amplificadores-en-cascada)
+- [4. Amplificador Diferencial](#4-amplificador-diferencial)
+- [5. Amplificadores Operacionales Ideales](#5-amplificadores-operacionales-ideales)
+  - [Propiedades del Operacional Ideal](#propiedades-del-operacional-ideal)
+  - [Configuración Inversora](#configuración-inversora)
+  - [Configuración No Inversora](#configuración-no-inversora)
+  - [Seguidor de Tensión](#seguidor-de-tensión)
+- [6. Limitaciones Reales y Ruido](#6-limitaciones-reales-y-ruido)
+  - [Saturación](#saturación)
+  - [No Linealidad](#no-linealidad)
+  - [Relación Señal/Ruido (SNR)](#relación-señalruido-snr)
+
+---
+
+## 1. Definiciones y Parámetros Fundamentales
+
+### Resistencia de Entrada
+Relación entre la tensión y la corriente en los bornes de entrada del amplificador:
+$$R_i = \frac{v_i}{i_i}$$
+donde la unidad es el ohmio:
+$$\Omega$$
+
+### Resistencia de Salida
+Resistencia interna medida desde los terminales de salida. Se obtiene cortocircuitando las fuentes de señal independientes de entrada y aplicando una fuente de prueba de tensión a la salida:
+$$v$$
+$$i_S = 0\text{ A}$$
+$$v_S = 0\text{ V}$$
+$$R_o = \frac{v}{i} \Big|_{v_i = 0\text{ V}, R_L \to \infty}$$
+donde la unidad es el ohmio:
+$$\Omega$$
+
+### Ganancias en Vacío
+Son las relaciones de amplificación cuando la salida está en circuito abierto (sin carga) o cortocircuito según corresponda al tipo de salida:
+- **Ganancia de Tensión en Abierto**:
+$$A_{vo} = \frac{v_o}{v_i} \Big|_{i_o = 0\text{ A}}$$
+- **Ganancia de Intensidad en Cortocircuito**:
+$$A_{ic} = \frac{i_o}{i_i} \Big|_{v_o = 0\text{ V}}$$
+- **Ganancia de Transimpedancia en Abierto**:
+$$A_{zo} = \frac{v_o}{i_i} \Big|_{i_o = 0\text{ A}}$$
+donde la unidad es el ohmio:
+$$\Omega$$
+- **Ganancia de Transconductancia (o Transadmitancia) en Cortocircuito**:
+$$A_{yc} = \frac{i_o}{v_i} \Big|_{v_o = 0\text{ V}}$$
+donde la unidad es el siemens o inverso del ohmio:
+$$\Omega^{-1}$$
+
+### Ganancias con Carga
+Relación de transferencia cuando hay una resistencia de carga conectada a la salida del amplificador:
+$$R_L$$
+- **Ganancia de Tensión**:
+$$A_v = \frac{v_o}{v_i}$$
+- **Ganancia de Intensidad**:
+$$A_i = \frac{i_o}{i_i}$$
+- **Ganancia de Transimpedancia**:
+$$A_z = \frac{v_o}{i_i}$$
+donde la unidad es el ohmio:
+$$\Omega$$
+- **Ganancia de Transadmitancia**:
+$$A_y = \frac{i_o}{v_i}$$
+donde la unidad es el siemens:
+$$\Omega^{-1}$$
+
+### Ganancias respecto a la Fuente de Señal
+Relación de transferencia tomando como magnitud de entrada la excitación interna ideal de la fuente de señal (tensión de fuente o corriente de fuente):
+$$v_S$$
+$$i_S$$
+- **Ganancia de Tensión respecto a la Fuente**:
+$$A_{vs} = \frac{v_o}{v_S}$$
+- **Ganancia de Transadmitancia respecto a la Fuente**:
+$$A_{ys} = \frac{i_o}{v_S}$$
+donde la unidad es el siemens:
+$$\Omega^{-1}$$
+- **Ganancia de Intensidad respecto a la Fuente**:
+$$A_{is} = \frac{i_o}{i_S}$$
+- **Ganancia de Transimpedancia respecto a la Fuente**:
+$$A_{zs} = \frac{v_o}{i_S}$$
+donde la unidad es el ohmio:
+$$\Omega$$
+
+---
+
+## 2. Modelos de Primera Aproximación
+
+### Amplificador de Tensión
+
+#### Descripción del Circuito
+- **Entrada**: Resistencia de entrada en paralelo con el terminal:
+$$R_i$$
+- **Salida**: Fuente de tensión controlada por la tensión de entrada en serie con la resistencia de salida:
+$$A_{vo} \cdot v_i$$
+$$R_o$$
+
+#### Ecuaciones de Ganancia
+- **Ganancia con Carga**:
+$$A_v = A_{vo} \cdot \frac{R_L}{R_L + R_o}$$
+- **Ganancia respecto a la Fuente**:
+$$A_{vs} = A_{vo} \cdot \frac{R_i}{R_i + R_S} \cdot \frac{R_L}{R_L + R_o}$$
+
+#### Condiciones de Idealidad
+Para aproximar el comportamiento real al ideal se requiere:
+$$R_i \gg R_S$$
+$$R_o \ll R_L$$
+
+---
+
+### Amplificador de Intensidad
+
+#### Descripción del Circuito
+- **Entrada**: Resistencia de entrada en paralelo con el terminal:
+$$R_i$$
+- **Salida**: Fuente de corriente controlada por la corriente de entrada en paralelo con la resistencia de salida:
+$$A_{ic} \cdot i_i$$
+$$R_o$$
+
+#### Ecuaciones de Ganancia
+- **Ganancia con Carga**:
+$$A_i = A_{ic} \cdot \frac{R_o}{R_o + R_L}$$
+- **Ganancia respecto a la Fuente**:
+$$A_{is} = A_{ic} \cdot \frac{R_S}{R_i + R_S} \cdot \frac{R_o}{R_o + R_L}$$
+
+#### Condiciones de Idealidad
+Para aproximar el comportamiento real al ideal se requiere:
+$$R_i \ll R_S$$
+$$R_o \gg R_L$$
+
+---
+
+### Amplificador de Transimpedancia
+
+#### Descripción del Circuito
+- **Entrada**: Resistencia de entrada en paralelo con el terminal:
+$$R_i$$
+- **Salida**: Fuente de tensión controlada por la corriente de entrada en serie con la resistencia de salida:
+$$A_{zo} \cdot i_i$$
+$$R_o$$
+
+#### Ecuaciones de Ganancia
+- **Ganancia con Carga**:
+$$A_z = A_{zo} \cdot \frac{R_L}{R_L + R_o}$$
+- **Ganancia respecto a la Fuente**:
+$$A_{zs} = A_{zo} \cdot \frac{R_S}{R_i + R_S} \cdot \frac{R_L}{R_L + R_o}$$
+
+#### Condiciones de Idealidad
+Para aproximar el comportamiento real al ideal se requiere:
+$$R_i \ll R_S$$
+$$R_o \ll R_L$$
+
+---
+
+### Amplificador de Transconductancia
+
+#### Descripción del Circuito
+- **Entrada**: Resistencia de entrada en paralelo con el terminal:
+$$R_i$$
+- **Salida**: Fuente de corriente controlada por la tensión de entrada en paralelo con la resistencia de salida:
+$$A_{yc} \cdot v_i$$
+$$R_o$$
+
+#### Ecuaciones de Ganancia
+- **Ganancia con Carga**:
+$$A_y = A_{yc} \cdot \frac{R_o}{R_o + R_L}$$
+- **Ganancia respecto a la Fuente**:
+$$A_{ys} = A_{yc} \cdot \frac{R_i}{R_i + R_S} \cdot \frac{R_o}{R_o + R_L}$$
+
+#### Condiciones de Idealidad
+Para aproximar el comportamiento real al ideal se requiere:
+$$R_i \gg R_S$$
+$$R_o \gg R_L$$
+
+---
+
+### Resumen de Condiciones Ideales por Tipo de Amplificador
+
+#### 1. Amplificador de Tensión
+- Resistencia de entrada ideal:
+$$\infty\text{ }\Omega$$
+- Resistencia de salida ideal:
+$$0\text{ }\Omega$$
+- Condición de acoplamiento real:
+$$R_i \gg R_S$$
+$$R_o \ll R_L$$
+
+#### 2. Amplificador de Intensidad
+- Resistencia de entrada ideal:
+$$0\text{ }\Omega$$
+- Resistencia de salida ideal:
+$$\infty\text{ }\Omega$$
+- Condición de acoplamiento real:
+$$R_i \ll R_S$$
+$$R_o \gg R_L$$
+
+#### 3. Amplificador de Transimpedancia
+- Resistencia de entrada ideal:
+$$0\text{ }\Omega$$
+- Resistencia de salida ideal:
+$$0\text{ }\Omega$$
+- Condición de acoplamiento real:
+$$R_i \ll R_S$$
+$$R_o \ll R_L$$
+
+#### 4. Amplificador de Transconductancia
+- Resistencia de entrada ideal:
+$$\infty\text{ }\Omega$$
+- Resistencia de salida ideal:
+$$\infty\text{ }\Omega$$
+- Condición de acoplamiento real:
+$$R_i \gg R_S$$
+$$R_o \gg R_L$$
+
+---
+
+## 3. Amplificadores en Cascada
+
+Cuando se conectan múltiples etapas amplificadoras unilaterales de manera secuencial:
+1. **Resistencia de Entrada Total**: Es la resistencia de entrada de la primera etapa del bloque:
+$$R_i = R_{i1}$$
+2. **Resistencia de Salida Total**: Es la resistencia de salida de la última etapa del bloque:
+$$R_o = R_{oN}$$
+3. **Cálculo de la Ganancia**: La ganancia total se obtiene multiplicando la ganancia intrínseca de cada una de las etapas por los factores de divisor de tensión o corriente que ocurren en los nodos de interconexión (acoplamiento interetapa).
+
+---
+
+## 4. Amplificador Diferencial
+
+Circuito diseñado para responder a la diferencia de potencial eléctrico entre sus terminales de entrada.
+- **Tensión de Entrada en Modo Diferencial**:
+$$v_{Id} = v_{I1} - v_{I2}$$
+- **Tensión de Entrada en Modo Común**:
+$$v_{Ic} = \frac{v_{I1} + v_{I2}}{2}$$
+- **Comportamiento Ideal**:
+$$v_O = A_{vd} \cdot v_{Id}$$
+donde la ganancia diferencial de tensión es:
+$$A_{vd}$$
+- **Comportamiento Real**:
+$$v_O = A_{vd} \cdot v_{Id} + A_{vc} \cdot v_{Ic}$$
+donde la ganancia de modo común de tensión es:
+$$A_{vc}$$
+- **Razón de Rechazo al Modo Común (CMRR)**: parámetro de mérito que evalúa la capacidad de rechazo al ruido común. Se calcula mediante:
+$$\text{CMRR} = 20 \cdot \log\left(\left|\frac{A_{vd}}{A_{vc}}\right|\right)$$
+donde la unidad es el decibelio:
+$$\text{dB}$$
+
+---
+
+## 5. Amplificadores Operacionales Ideales
+
+### Propiedades del Operacional Ideal
+- Ganancia diferencial infinita:
+$$A_d \to \infty$$
+- Resistencia de entrada infinita:
+$$R_{in} \to \infty\text{ }\Omega$$
+- Resistencia de salida nula:
+$$R_{out} \to 0\text{ }\Omega$$
+- Corrientes de entrada nulas:
+$$i_+ = i_- = 0\text{ A}$$
+- Cortocircuito virtual (en lazo cerrado con realimentación negativa):
+$$v_+ = v_-$$
+
+### Configuración Inversora
+La señal de entrada se inyecta en el terminal inversor (-).
+- **Ganancia de Tensión**:
+$$A_v = -\frac{R_2}{R_1}$$
+- **Resistencia de Entrada**:
+$$R_i = R_1$$
+- **Resistencia de Salida**:
+$$R_o = 0\text{ }\Omega$$
+
+### Configuración No Inversora
+La señal de entrada se inyecta en el terminal no inversor (+).
+- **Ganancia de Tensión**:
+$$A_v = 1 + \frac{R_2}{R_1}$$
+- **Resistencia de Entrada**:
+$$R_i \to \infty\text{ }\Omega$$
+- **Resistencia de Salida**:
+$$R_o = 0\text{ }\Omega$$
+
+### Seguidor de Tensión
+Configuración no inversora especial con cortocircuito directo entre la salida y el terminal inversor (-) (resistencia de realimentación nula e ideal).
+- **Ganancia de Tensión**:
+$$A_v = 1$$
+- **Resistencia de Entrada**:
+$$R_i \to \infty\text{ }\Omega$$
+- **Resistencia de Salida**:
+$$R_o = 0\text{ }\Omega$$
+
+---
+
+## 6. Limitaciones Reales y Ruido
+
+### Saturación
+Límite físico de la tensión de salida impuesto por las fuentes de alimentación del circuito. La tensión nunca puede exceder los límites fijos:
+$$V_{O\text{máx}}$$
+$$V_{O\text{mín}}$$
+los cuales son ligeramente menores que las tensiones de alimentación:
+$$V_{CC}$$
+$$-V_{EE}$$
+
+### No Linealidad
+Desviación en la respuesta lineal del amplificador. La ganancia decae a medida que la amplitud de la señal de salida se aproxima a los límites de saturación, introduciendo distorsión armónica.
+
+### Relación Señal/Ruido (SNR)
+Medida que relaciona la potencia de la señal de información con la potencia del ruido no deseado. Se define como:
+$$\text{SNR} = 20 \cdot \log\left(\frac{V_{\text{señal,RMS}}}{V_{\text{ruido,RMS}}}\right)$$
+donde la unidad es el decibelio:
+$$\text{dB}$$
+
+> [!NOTE]
+> Si el ruido de un amplificador se genera o aplica en la etapa de salida, un incremento en la ganancia de tensión del circuito amplifica el nivel de la señal de entrada reduciendo el peso del ruido constante, mejorando la relación señal/ruido en la salida, la cual es:
+$$\text{SNR}$$
