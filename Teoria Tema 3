@@ -1,0 +1,284 @@
+# Teoría Tema 3: Respuesta en Frecuencia - Electrónica Industrial
+
+## Índice de Contenidos
+- [1. Clasificación de Amplificadores según su Respuesta](#1-clasificación-de-amplificadores-según-su-respuesta)
+- [2. Parámetros Característicos de la Respuesta en Frecuencia](#2-parámetros-característicos-de-la-respuesta-en-frecuencia)
+- [3. Diagramas de Bode de las Funciones Básicas](#3-diagramas-de-bode-de-las-funciones-básicas)
+  - [Constante](#constante)
+  - [Cero Real en el Origen y Polo Real en el Origen](#cero-real-en-el-origen-y-polo-real-en-el-origen)
+  - [Cero Real Simple y Polo Real Simple](#cero-real-simple-y-polo-real-simple)
+  - [Cero y Polo Real Múltiple](#cero-y-polo-real-múltiple)
+  - [Ceros y Polos Complejos Conjugados](#ceros-y-polos-complejos-conjugados)
+- [4. Construcción y Análisis de Diagramas de Bode Complejos](#4-construcción-y-análisis-de-diagramas-de-bode-complejos)
+- [5. Respuesta en Frecuencia del Op-Amp en Lazo Abierto](#5-respuesta-en-frecuencia-del-op-amp-en-lazo-abierto)
+- [6. Filtros Activos de Primer Orden](#6-filtros-activos-de-primer-orden)
+
+---
+
+## 1. Clasificación de Amplificadores según su Respuesta
+
+- **Amplificadores Acoplados en Continua**:
+  Poseen una respuesta plana en ganancia que se extiende de manera constante hasta la frecuencia de corriente continua:
+$$0\text{ Hz}$$
+Se construyen acoplando las sucesivas etapas en cascada de manera directa (contacto metálico directo), sin incluir condensadores interetapa.
+- **Amplificadores Acoplados en Alterna**:
+  Están diseñados para amplificar exclusivamente las señales alternas. Su ganancia decae a bajas frecuencias debido a la presencia de condensadores de acoplamiento colocados en serie entre las etapas del amplificador para bloquear la corriente continua.
+
+---
+
+## 2. Parámetros Característicos de la Respuesta en Frecuencia
+
+- **Ganancia a Frecuencias Medias**:
+$$A_M$$
+Ganancia del amplificador en la zona plana del espectro donde la magnitud no depende de la variación de frecuencia (banda de paso).
+- **Frecuencia de Corte Inferior**:
+$$\omega_L$$
+Frecuencia baja a la cual el módulo de la ganancia cae exactamente:
+$$3\text{ dB}$$
+respecto a su valor en la banda de frecuencias medias:
+$$|A(\omega_L)|_{\text{dB}} = |A_M|_{\text{dB}} - 3\text{ dB}$$
+donde la unidad es:
+$$\text{rad/s}$$
+- **Frecuencia de Corte Superior**:
+$$\omega_H$$
+Frecuencia alta a la cual el módulo de la ganancia decae exactamente:
+$$3\text{ dB}$$
+respecto a su valor en la banda de frecuencias medias:
+$$|A(\omega_H)|_{\text{dB}} = |A_M|_{\text{dB}} - 3\text{ dB}$$
+donde la unidad es:
+$$\text{rad/s}$$
+- **Ancho de Banda (BW)**:
+Intervalo de frecuencias en el cual la ganancia es óptima y plana. Se calcula como:
+$$\text{BW} = \omega_H - \omega_L$$
+donde la unidad es:
+$$\text{rad/s}$$
+
+---
+
+## 3. Diagramas de Bode de las Funciones Básicas
+
+### Constante
+- **Función**:
+$$T = K$$
+- **Descripción del Módulo**: constante en todo el espectro:
+$$|T|_{\text{dB}} = 20 \cdot \log|K|$$
+- **Descripción de la Fase**: constante en todo el espectro y definida por el signo de la constante:
+$$\angle T = \begin{cases} 0^\circ & \text{para } K > 0 \\ \pm 180^\circ & \text{para } K < 0 \end{cases}$$
+
+### Cero Real en el Origen y Polo Real en el Origen
+
+#### Cero Real en el Origen
+- **Función**:
+$$T(j\omega) = j\omega$$
+- **Módulo**: una recta que cruza por cero decibelios a la frecuencia unitaria, con pendiente constante:
+$$|T(j\omega)|_{\text{dB}} = 20 \cdot \log(\omega)$$
+$$+20\text{ dB/década}$$
+- **Fase**: constante en todo el espectro:
+$$\angle T = 90^\circ$$
+
+#### Polo Real en el Origen
+- **Función**:
+$$T(j\omega) = \frac{1}{j\omega}$$
+- **Módulo**: una recta que cruza por cero decibelios a la frecuencia unitaria, con pendiente constante:
+$$|T(j\omega)|_{\text{dB}} = -20 \cdot \log(\omega)$$
+$$-20\text{ dB/década}$$
+- **Fase**: constante en todo el espectro:
+$$\angle T = -90^\circ$$
+
+---
+
+### Cero Real Simple y Polo Real Simple
+
+#### Cero Real Simple
+- **Función**:
+$$T(j\omega) = 1 + j\frac{\omega}{\omega_o}$$
+- **Aproximación de Módulo**:
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega \le \omega_o \\ 20 \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+con pendiente asintótica en alta frecuencia de:
+$$+20\text{ dB/década}$$
+- **Aproximación de Fase**:
+$$\angle T(j\omega) \approx \begin{cases} 0^\circ & \text{para } \omega \le 0.1\omega_o \\ 45 \cdot \log\left(\frac{\omega}{0.1\omega_o}\right) & \text{para } 0.1\omega_o < \omega < 10\omega_o \\ 90^\circ & \text{para } \omega \ge 10\omega_o \end{cases}$$
+con pendiente asintótica de fase de:
+$$+45^\circ/\text{década}$$
+
+#### Polo Real Simple
+- **Función**:
+$$T(j\omega) = \frac{1}{1 + j\frac{\omega}{\omega_o}}$$
+- **Aproximación de Módulo**:
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega \le \omega_o \\ -20 \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+con pendiente asintótica en alta frecuencia de:
+$$-20\text{ dB/década}$$
+- **Aproximación de Fase**:
+$$\angle T(j\omega) \approx \begin{cases} 0^\circ & \text{para } \omega \le 0.1\omega_o \\ -45 \cdot \log\left(\frac{\omega}{0.1\omega_o}\right) & \text{para } 0.1\omega_o < \omega < 10\omega_o \\ -90^\circ & \text{para } \omega \ge 10\omega_o \end{cases}$$
+con pendiente asintótica de fase de:
+$$-45^\circ/\text{década}$$
+
+---
+
+### Cero y Polo Real Múltiple
+
+#### Cero Real Múltiple
+- **Función**:
+$$T(j\omega) = \left(1 + j\frac{\omega}{\omega_o}\right)^n$$
+- **Aproximación de Módulo**:
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega \le \omega_o \\ 20n \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+con pendiente de alta frecuencia de:
+$$+20n\text{ dB/década}$$
+- **Aproximación de Fase**:
+$$\angle T(j\omega) \approx \begin{cases} 0^\circ & \text{para } \omega \le 0.1\omega_o \\ 45n \cdot \log\left(\frac{\omega}{0.1\omega_o}\right) & \text{para } 0.1\omega_o < \omega < 10\omega_o \\ n \cdot 90^\circ & \text{para } \omega \ge 10\omega_o \end{cases}$$
+
+#### Polo Real Múltiple
+- **Función**:
+$$T(j\omega) = \frac{1}{\left(1 + j\frac{\omega}{\omega_o}\right)^n}$$
+- **Aproximación de Módulo**:
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega \le \omega_o \\ -20n \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+con pendiente de alta frecuencia de:
+$$-20n\text{ dB/década}$$
+- **Aproximación de Fase**:
+$$\angle T(j\omega) \approx \begin{cases} 0^\circ & \text{para } \omega \le 0.1\omega_o \\ -45n \cdot \log\left(\frac{\omega}{0.1\omega_o}\right) & \text{para } 0.1\omega_o < \omega < 10\omega_o \\ -n \cdot 90^\circ & \text{para } \omega \ge 10\omega_o \end{cases}$$
+
+---
+
+### Ceros y Polos Complejos Conjugados
+
+#### Ceros Complejos Conjugados
+- **Función**:
+$$T(j\omega) = 1 - \frac{\omega^2}{\omega_o^2} + j\frac{\omega}{Q\cdot\omega_o}$$
+- **Descripción Exacta del Módulo**:
+$$|T(j\omega)|_{\text{dB}} = 20 \cdot \log\left(\sqrt{\left(1 - \frac{\omega^2}{\omega_o^2}\right)^2 + \left(\frac{\omega}{Q\cdot\omega_o}\right)^2}\right)$$
+- **Aproximación de Módulo**:
+  - Para factor de calidad amortiguado:
+$$Q \le \frac{1}{\sqrt{2}}$$
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega \le \omega_o \\ 40 \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+  - Para factor de calidad con resonancia:
+$$Q > \frac{1}{\sqrt{2}}$$
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega < \omega_o \\ 20 \cdot \log(Q)\text{ dB} & \text{para } \omega = \omega_o \\ 40 \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+    con pendiente en alta frecuencia de:
+$$+40\text{ dB/década}$$
+- **Aproximación de Fase**:
+$$\angle T(j\omega) \approx \begin{cases} 0^\circ & \text{para } \omega \le \omega_o \cdot 5^{-\frac{1}{2Q}} \\ \frac{90}{\log\left(5^{\frac{1}{Q}}\right)} \cdot \log\left(\frac{\omega}{\omega_o \cdot 5^{-\frac{1}{2Q}}}\right) & \text{para } \omega_o \cdot 5^{-\frac{1}{2Q}} < \omega < \omega_o \cdot 5^{\frac{1}{2Q}} \\ 180^\circ & \text{para } \omega \ge \omega_o \cdot 5^{\frac{1}{2Q}} \end{cases}$$
+
+#### Polos Complejos Conjugados
+- **Función**:
+$$T(j\omega) = \frac{1}{1 - \frac{\omega^2}{\omega_o^2} + j\frac{\omega}{Q\cdot\omega_o}}$$
+- **Descripción Exacta del Módulo**:
+$$|T(j\omega)|_{\text{dB}} = -20 \cdot \log\left(\sqrt{\left(1 - \frac{\omega^2}{\omega_o^2}\right)^2 + \left(\frac{\omega}{Q\cdot\omega_o}\right)^2}\right)$$
+- **Aproximación de Módulo**:
+  - Para factor de calidad amortiguado:
+$$Q \le \frac{1}{\sqrt{2}}$$
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega \le \omega_o \\ -40 \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+  - Para factor de calidad con resonancia:
+$$Q > \frac{1}{\sqrt{2}}$$
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega < \omega_o \\ -20 \cdot \log(Q)\text{ dB} & \text{para } \omega = \omega_o \\ -40 \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+    con pendiente en alta frecuencia de:
+$$-40\text{ dB/década}$$
+- **Aproximación de Fase**:
+$$\angle T(j\omega) \approx \begin{cases} 0^\circ & \text{para } \omega \le \omega_o \cdot 5^{-\frac{1}{2Q}} \\ -\frac{90}{\log\left(5^{\frac{1}{Q}}\right)} \cdot \log\left(\frac{\omega}{\omega_o \cdot 5^{-\frac{1}{2Q}}}\right) & \text{para } \omega_o \cdot 5^{-\frac{1}{2Q}} < \omega < \omega_o \cdot 5^{\frac{1}{2Q}} \\ -180^\circ & \text{para } \omega \ge \omega_o \cdot 5^{\frac{1}{2Q}} \end{cases}$$
+
+---
+
+## 4. Construcción y Análisis de Diagramas de Bode Complejos
+
+Para obtener la representación final de la ganancia de una función de transferencia arbitraria descompuesta en forma de polos y ceros:
+1. **Pendiente en una Región**: La pendiente total en decibelios por década de la función es la suma algebraica de las pendientes individuales de todos sus ceros y polos activos en dicha región:
+$$\text{pend}(|A_v(j\omega)|_{\text{dB}}) = \sum \text{pend}_{\text{ceros}} + \sum \text{pend}_{\text{polos}}$$
+2. **Valor en una Frontera (Frecuencia de Quiebre)**: El valor en decibelios de la ganancia total en el punto exacto de la frecuencia de corte es la suma de los valores de ganancia de cada componente básico evaluados en esa misma frecuencia:
+$$|A_v(j\omega_c)|_{\text{dB}} = \sum |T_k(j\omega_c)|_{\text{dB}}$$
+
+---
+
+## 5. Respuesta en Frecuencia del Op-Amp en Lazo Abierto
+
+La ganancia diferencial en lazo abierto del amplificador operacional decae con la frecuencia y responde a un modelo constitutivo de primer orden:
+$$A_v(jf) = \frac{A_o}{1 + j\frac{f}{f_b}}$$
+donde las variables representan:
+- Ganancia diferencial máxima a baja frecuencia (modo continuo):
+$$A_o$$
+- Frecuencia de corte de lazo abierto:
+$$f_b$$
+donde la unidad es el hercio:
+$$\text{Hz}$$
+- Frecuencia de transición (donde la ganancia se reduce a la unidad):
+$$f_t = A_o \cdot f_b$$
+donde la unidad es el hercio:
+$$\text{Hz}$$
+
+---
+
+## 6. Filtros Activos de Primer Orden
+
+### Filtro Paso de Baja
+
+#### Descripción del Circuito
+- Amplificador operacional ideal en configuración inversora.
+- **Rama de Entrada**: resistencia de valor:
+$$R_1$$
+- **Rama de Realimentación**: resistencia de valor en paralelo con condensador de capacidad:
+$$R_2$$
+$$C$$
+
+#### Obtención de la Ganancia de Tensión
+- **Función de Transferencia Inversora**:
+$$A_v(s) = -\frac{Z_2(s)}{R_1}$$
+- **Impedancia de la Rama de Realimentación**:
+  - Impedancia paralela equivalente:
+$$Z_2$$
+$$Z_2(s) = \frac{R_2}{1 + sR_2C}$$
+- **Sustitución en la Ganancia**:
+$$A_v(s) = -\frac{R_2}{R_1} \cdot \frac{1}{1 + sR_2C}$$
+- **Expresión en Forma Normalizada**:
+$$A_v(s) = K \cdot \frac{1}{1 + \frac{s}{\omega_o}}$$
+donde las constantes se definen como:
+  - Ganancia en banda de paso:
+$$K = -\frac{R_2}{R_1}$$
+  - Frecuencia del polo (corte):
+$$\omega_o = \frac{1}{R_2C}$$
+donde la unidad es rad/s:
+$$\text{rad/s}$$
+
+#### Diagrama de Bode del Módulo
+- **Zona Plana (Banda de Paso)**:
+$$\omega < \omega_o \implies |A_v|_{\text{dB}} \approx 20 \cdot \log|K|\text{ dB}$$
+- **Atenuación a Frecuencia de Corte**:
+$$\omega = \omega_o \implies |A_v|_{\text{dB}} = 20 \cdot \log|K| - 3\text{ dB}$$
+- **Zona de Caída (Banda de Atenuación)**:
+$$\omega > \omega_o \implies \text{Pendiente} = -20\text{ dB/década}$$
+
+### Filtro Paso de Alta
+
+#### Descripción del Circuito
+- Amplificador operacional ideal en configuración inversora.
+- **Rama de Entrada**: resistencia en serie con condensador de capacidad:
+$$R_1$$
+$$C$$
+- **Rama de Realimentación**: resistencia de valor:
+$$R_2$$
+
+#### Obtención de la Ganancia de Tensión
+- **Función de Transferencia Inversora**:
+$$A_v(s) = -\frac{Z_2(s)}{Z_1(s)}$$
+- **Impedancia de la Rama de Entrada**:
+  - Impedancia serie de entrada:
+$$Z_1$$
+$$Z_1(s) = R_1 + \frac{1}{sC} = \frac{sR_1C + 1}{sC}$$
+- **Impedancia de la Rama de Realimentación**:
+$$Z_2(s) = R_2$$
+- **Sustitución en la Ganancia**:
+$$A_v(s) = -\frac{R_2}{\frac{sR_1C + 1}{sC}} = -\frac{sR_2C}{1 + sR_1C}$$
+- **Expresión en Forma Normalizada**:
+$$A_v(s) = K \cdot \frac{1}{1 + \frac{\omega_{p1}}{s}}$$
+donde los parámetros de diseño representan:
+  - Ganancia máxima en la banda de paso (alta frecuencia):
+$$K = -\frac{R_2}{R_1}$$
+  - Frecuencia del polo (corte):
+$$\omega_{p1} = \frac{1}{R_1C}$$
+donde la unidad es rad/s:
+$$\text{rad/s}$$
+
+#### Diagrama de Bode del Módulo
+- **Zona de Atenuación (Bajas Frecuencias)**:
+$$\omega < \omega_{p1} \implies \text{Pendiente} = +20\text{ dB/década}$$
+- **Atenuación a Frecuencia de Corte**:
+$$\omega = \omega_{p1} \implies |A_v|_{\text{dB}} = 20 \cdot \log|K| - 3\text{ dB}$$
+- **Banda de Paso (Altas Frecuencias)**:
+$$\omega > \omega_{p1} \implies |A_v|_{\text{dB}} \approx 20 \cdot \log|K|\text{ dB}$$
