@@ -1,0 +1,97 @@
+# Tema 5: Circuitos Secuenciales y Máquinas de Estado - Electrónica Industrial
+
+## Índice de Contenidos
+- [1. Clasificación y Tipos de Biestables](#1-clasificación-y-tipos-de-biestables)
+- [2. Análisis Temporal de un Autómata de Mealy](#2-análisis-temporal-de-un-autómata-de-mealy)
+
+---
+
+## 1. Clasificación y Tipos de Biestables
+
+### Pregunta
+Descripción de los distintos tipos de biestable, en función de si disponen o no de entrada de reloj y del tipo de reloj.
+
+### Tipos de Biestables
+
+#### 1. Según la Existencia de Entrada de Reloj
+- **Biestables Asíncronos (Latches)**: No disponen de una entrada de reloj. Las entradas de datos actúan y modifican el estado de la salida en cualquier instante de tiempo de forma directa.
+- **Biestables Síncronos (Flip-Flops)**: Disponen de una entrada de reloj. Las entradas de datos solo actúan e influyen sobre el estado de la salida cuando la señal de reloj lo permite.
+
+#### 2. Según el Tipo de Activación del Reloj (en Síncronos)
+- **Activos por Nivel (Level-triggered)**:
+  - **Nivel Alto**: El estado puede cambiar y responder a las entradas de datos únicamente mientras la señal de reloj se mantiene en un nivel lógico alto:
+$$1$$
+  - **Nivel Bajo**: El estado puede cambiar y responder a las entradas de datos únicamente mientras la señal de reloj se mantiene en un nivel lógico bajo:
+$$0$$
+- **Activos por Flanco (Edge-triggered)**:
+  - **Flanco de Subida**: El estado solo puede alterarse en el instante preciso de la transición de la señal de reloj de nivel bajo a alto:
+$$0 \to 1$$
+  - **Flanco de Bajada**: El estado solo puede alterarse en el instante preciso de la transición de la señal de reloj de nivel alto a bajo:
+$$1 \to 0$$
+
+---
+
+## 2. Análisis Temporal de un Autómata de Mealy
+
+### Pregunta
+Dado el diagrama de estados de un circuito secuencial síncrono disparado en flanco de bajada y la señal de entrada, determine:
+- El tipo de señal de reloj.
+- El tipo de autómata (Mealy o Moore).
+- Complete el diagrama temporal correspondiente a las señales de estado y de salida.
+
+### Descripción del Autómata (Diagrama de Estados)
+- **Estados**: El circuito consta de tres estados representados por los círculos:
+$$A$$
+$$B$$
+$$C$$
+- **Variable de Entrada**:
+$$X$$
+- **Variable de Salida**:
+$$Z$$
+- **Transiciones y Salidas Asociadas (Formato Entrada / Salida)**:
+  - Transición desde el estado inicial:
+$$A \to B$$
+    para cualquier valor de la entrada:
+$$\text{X/0}$$
+  - Transición desde el estado:
+$$B$$
+    - Si la entrada es 0, permanece en el estado B con salida 0 (lazo):
+$$0/0$$
+    - Si la entrada es 1, transiciona al estado C con salida 1:
+$$1/1$$
+  - Transición desde el estado:
+$$C$$
+    - Si la entrada es 0, transiciona al estado B con salida 1:
+$$0/1$$
+    - Si la entrada es 1, transiciona al estado A con salida 0:
+$$1/0$$
+
+### Resolución Paso a Paso
+
+#### 1. Identificación del Tipo de Reloj y Autómata
+- **Señal de Reloj**: Es un circuito secuencial síncrono disparado por **flanco de bajada** (los cambios de estado ocurren en el instante de la transición de alto a bajo del reloj).
+- **Tipo de Autómata**: Se trata de una **máquina de Mealy** debido a que la salida:
+$$Z$$
+depende tanto del estado actual como de la señal de entrada actual:
+$$X$$
+Esto se evidencia en el diagrama temporal, donde la salida cambia de valor inmediatamente cuando cambia la entrada en medio de un ciclo de reloj, sin esperar al flanco activo.
+
+#### 2. Comportamiento y Secuencia de Estados
+- **Ciclo 1**: S parte del estado A. En el primer flanco de bajada de reloj, transiciona a B (salida Z es 0).
+- **Ciclo 2**: S está en B. Como la entrada X es 0, en el flanco de bajada permanece en B (salida Z es 0).
+- **Ciclo 3**: S está en B. Como la entrada X es 0, en el flanco de bajada permanece en B (salida Z es 0).
+- **Ciclo 4**: S está en B. En medio del ciclo, la entrada X sube a 1. Al ser un autómata de Mealy, la salida Z sube inmediatamente a 1. En el flanco de bajada de reloj, con X igual a 1, el estado transiciona a C.
+- **Ciclo 5**: S está en C. Como X se mantiene en 1, la salida Z es 0 (según la transición C a A con 1/0). En el flanco de bajada de reloj, el estado transiciona a A.
+- **Ciclo 6**: S está en A. En el flanco de bajada, transiciona a B (salida Z es 0).
+- **Ciclo 7**: S está en B. Como la entrada X es 0, en el flanco de bajada permanece en B (salida Z es 0).
+- **Ciclo 8**: S está en B. En medio del ciclo, la entrada X sube a 1. La salida Z sube inmediatamente a 1. En el flanco de bajada de reloj, con X igual a 1, el estado transiciona a C.
+
+#### 3. Cronograma Resultante de Estados y Salida Z
+- **Secuencia de Estados (por ciclo completo de reloj)**:
+$$\text{Estado S: } A \to B \to B \to B \to C \to A \to B \to B \to C$$
+- **Comportamiento de la Salida Z**:
+  - Permanece a 0 en los ciclos 1, 2 y 3.
+  - Sube a 1 a mitad del ciclo 4 (cuando la entrada X sube a 1) y cae a 0 en el flanco de bajada del ciclo 4 (cuando el estado pasa a C y la entrada sigue a 1).
+  - Permanece a 0 durante la primera mitad del ciclo 5, sube a 1 a mitad de este ciclo (cuando X cae a 0) y se mantiene a 1 hasta el flanco de bajada del ciclo 5 (cuando el estado pasa a A).
+  - Permanece a 0 durante los ciclos 6 y 7.
+  - Sube a 1 a mitad del ciclo 8 (cuando X sube a 1) y vuelve a 0 en el flanco de bajada del ciclo 8.
