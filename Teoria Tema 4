@@ -1,0 +1,154 @@
+# Teoría Tema 4: Circuitos Combinacionales - Electrónica Industrial
+
+## Índice de Contenidos
+- [1. Introducción a los Circuitos Combinacionales](#1-introducción-a-los-circuitos-combinacionales)
+- [2. Álgebra de Boole y Simplificación Algebraica](#2-álgebra-de-boole-y-simplificación-algebraica)
+- [3. Simplificación mediante Mapas de Karnaugh](#3-simplificación-mediante-mapas-de-karnaugh)
+  - [Numeración de las Casillas del Mapa](#numeración-de-las-casillas-del-mapa)
+  - [Suma de Productos Mínima (SOP)](#suma-de-productos-mínima-sop)
+  - [Producto de Sumas Mínimo (POS)](#producto-de-sumas-mínimo-pos)
+  - [Funciones Incompletamente Especificadas](#funciones-incompletamente-especificadas)
+- [4. Implementación Física con Puertas Lógicas](#4-implementación-física-con-puertas-lógicas)
+
+---
+
+## 1. Introducción a los Circuitos Combinacionales
+
+Un circuito combinacional es aquel sistema lógico digital en el cual las salidas dependen exclusivamente de los valores presentes en las variables de entrada en ese mismo instante de tiempo.
+No poseen capacidad de almacenamiento de información, elementos de memoria ni lazos de realimentación interna, lo que significa que carecen de estados internos.
+
+---
+
+## 2. Álgebra de Boole y Simplificación Algebraica
+
+La simplificación algebraica consiste en utilizar los postulados y teoremas lógicos para reducir el tamaño y número de términos de una función.
+
+### Teoremas de Absorción
+- **Teorema de Absorción 1**:
+$$a + a \cdot b = a$$
+- **Teorema de Absorción 2**:
+$$a + \bar{a} \cdot b = a + b$$
+- **Doble Negación**:
+$$\overline{\overline{a}} = a$$
+
+### Teorema de Consenso (Consensus)
+- **Expresión del Teorema**:
+$$a \cdot b + \bar{a} \cdot c + b \cdot c = a \cdot b + \bar{a} \cdot c$$
+- **Versión Dual**:
+$$(a + b) \cdot (\bar{a} + c) \cdot (b + c) = (a + b) \cdot (\bar{a} + c)$$
+
+### Leyes de De Morgan
+Permiten realizar la negación de sumas lógicas o productos lógicos de variables:
+- **Negación de un Producto (NAND)**:
+$$\overline{a \cdot b} = \bar{a} + \bar{b}$$
+- **Negación de una Suma (NOR)**:
+$$\overline{a + b} = \bar{a} \cdot \bar{b}$$
+
+---
+
+## 3. Simplificación mediante Mapas de Karnaugh
+
+El Mapa de Karnaugh es una representación en forma de matriz de la tabla de verdad de una función lógica. Las casillas se ordenan según el código Gray (donde solo cambia un bit entre celdas adyacentes, incluyendo los bordes exteriores que se consideran físicamente continuos).
+
+### Numeración de las Casillas del Mapa
+
+#### Mapa de 3 Variables
+Representa las entradas de variables ordenadas:
+$$a$$
+$$b$$
+$$c$$
+donde las columnas corresponden a las combinaciones de las dos primeras variables y la fila a la tercera variable:
+- **Columnas**:
+$$00$$
+$$01$$
+$$11$$
+$$10$$
+- **Filas**:
+$$0$$
+$$1$$
+- **Índices de las Celdas**:
+  - Fila 0 (c = 0): celdas 0, 2, 6, 4.
+  - Fila 1 (c = 1): celdas 1, 3, 7, 5.
+
+#### Mapa de 4 Variables
+Representa las entradas de variables ordenadas:
+$$a$$
+$$b$$
+$$c$$
+$$d$$
+donde las columnas corresponden a las combinaciones de las dos primeras variables y las filas a las dos últimas variables:
+- **Columnas**:
+$$00$$
+$$01$$
+$$11$$
+$$10$$
+- **Filas**:
+$$00$$
+$$01$$
+$$11$$
+$$10$$
+- **Índices de las Celdas (Numeración Binaria)**:
+  - Fila 00 (cd = 00): celdas 0, 4, 12, 8.
+  - Fila 01 (cd = 01): celdas 1, 5, 13, 9.
+  - Fila 11 (cd = 11): celdas 3, 7, 15, 11.
+  - Fila 10 (cd = 10): celdas 2, 6, 14, 10.
+
+---
+
+### Suma de Productos Mínima (SOP)
+
+#### Procedimiento de Minimización
+1. Colocar un 1 lógico en las casillas correspondientes a los términos de la función que hacen verdadera la salida.
+2. Agrupar los 1 lógicos adyacentes en grupos de potencia de 2:
+$$2^k$$
+tales como grupos de tamaño 1, 2, 4, 8 o 16 celdas. Se debe buscar siempre realizar los grupos más grandes posibles y el menor número de ellos.
+3. Se seleccionan en primer lugar los implicantes primos esenciales (aquellos unos que solo pueden ser cubiertos por un único grupo de tamaño óptimo).
+4. Para cada grupo resultante:
+   - Se eliminan las variables que cambian de valor lógico (0 y 1) dentro de las celdas del grupo.
+   - Las variables que permanecen constantes en valor 1 se representan de forma directa.
+   - Las variables que permanecen constantes en valor 0 se representan complementadas (con barra superior o apóstrofe).
+5. La función simplificada se obtiene realizando la suma lógica (puerta OR) de todos los términos producto obtenidos.
+
+---
+
+### Producto de Sumas Mínimo (POS)
+
+#### Procedimiento de Minimización
+El procedimiento es dual y complementario al método SOP:
+1. Colocar un 0 lógico en las casillas donde la función de salida es falsa.
+2. Agrupar los 0 lógicos adyacentes en grupos de tamaño potencia de 2.
+3. Para cada grupo obtenido:
+   - Se eliminan las variables que varían de valor dentro del grupo.
+   - Las variables constantes en valor 0 se representan de forma directa (sin complementar).
+   - Las variables constantes en valor 1 se representan complementadas (con barra superior o apóstrofe).
+4. Cada grupo genera un término de suma lógica.
+5. La función simplificada se obtiene realizando el producto lógico (puerta AND) de todos los términos suma obtenidos.
+
+---
+
+### Funciones Incompletamente Especificadas
+
+#### Tratamiento de Inespecificaciones
+- Ocurren en combinaciones de entrada que no pueden presentarse físicamente o cuyas salidas no influyen en el comportamiento del circuito.
+- Se denotan con la letra:
+$$\text{X}$$
+- Para simplificar mediante mapas de Karnaugh, cada casilla con valor de inespecificación se puede tratar de forma libre como 0 o como 1 según convenga:
+  - En **SOP**, se toman como 1 si ayudan a formar un grupo de unos más grande, de lo contrario se ignoran (actúan como 0).
+  - En **POS**, se toman como 0 si ayudan a formar un grupo de ceros más grande, de lo contrario se ignoran (actúan como 1).
+
+---
+
+## 4. Implementación Física con Puertas Lógicas
+
+- **Estructura de Dos Niveles AND-OR**:
+  Implementación directa de la función simplificada en formato Suma de Productos (SOP). Consiste en un conjunto de puertas AND en el primer nivel cuyas salidas alimentan una puerta OR común.
+- **Estructura de Dos Niveles OR-AND**:
+  Implementación directa de la función simplificada en formato Producto de Sumas (POS). Consiste en un conjunto de puertas OR en el primer nivel cuyas salidas alimentan una puerta AND común.
+- **Implementación con Puertas NAND únicamente**:
+  Se obtiene aplicando la ley de doble negación y teoremas de De Morgan a la estructura SOP:
+$$\overline{\overline{T_1 + T_2 + \dots}} = \overline{\overline{T_1} \cdot \overline{T_2} \cdot \dots}$$
+Equivale a una estructura de dos niveles de puertas NAND-NAND (puertas NAND en el primer nivel alimentando una puerta NAND de salida). Requiere menos transistores físicos en tecnologías digitales.
+- **Implementación con Puertas NOR únicamente**:
+  Se obtiene aplicando la ley de doble negación y teoremas de De Morgan a la estructura POS:
+$$\overline{\overline{S_1 \cdot S_2 \cdot \dots}} = \overline{\overline{S_1} + \overline{S_2} + \dots}$$
+Equivale a una estructura de dos niveles de puertas NOR-NOR (puertas NOR en el primer nivel alimentando una puerta NOR de salida).
