@@ -1,0 +1,38 @@
+# Tema 1: Conceptos Generales - Electrónica Industrial
+
+## Índice de Contenidos
+- [1. Definiciones de Conceptos Fundamentales](#1-definiciones-de-conceptos-fundamentales)
+- [2. Alternativas para Describir el Comportamiento de Circuitos Analógicos](#2-alternativas-para-describir-el-comportamiento-de-circuitos-analógicos)
+
+---
+
+## 1. Definiciones de Conceptos Fundamentales
+
+### Pregunta
+Describa los siguientes términos relacionados con los circuitos electrónicos: Estructura, Comportamiento, Análisis, Diseño.
+
+### Definiciones
+- **Estructura**: Conjunto de componentes físicos (tales como resistencias, condensadores, fuentes de tensión, transistores y circuitos integrados) que constituyen el circuito electrónico, junto con la topología o forma en la que están interconectados eléctricamente.
+- **Comportamiento**: La función u operación física que realiza el circuito electrónico como sistema. Generalmente se describe mediante relaciones matemáticas (ecuaciones de transferencia, funciones de red) o curvas de respuesta que vinculan las señales de entrada con las de salida.
+- **Análisis**: Proceso deductivo y metodológico que consiste en determinar y modelar el comportamiento operativo de un circuito a partir del conocimiento detallado de su estructura y de los componentes que lo integran.
+- **Diseño**: Proceso creativo y de síntesis por el cual se obtiene la estructura física y se calculan las magnitudes de los componentes de un circuito necesarios para lograr un comportamiento operativo específico predeterminado.
+
+---
+
+## 2. Alternativas para Describir el Comportamiento de Circuitos Analógicos
+
+### Pregunta
+Para los circuitos analógicos en general, indique las distintas alternativas para describir su comportamiento.
+
+### Alternativas
+
+#### 1. Descripción Matemática
+La relación entre las señales de entrada y salida se especifica formalmente mediante una expresión algebraica tradicional obtenida por modelado circuital.
+Ejemplo:
+$$v_o = -A_{vo} \cdot \frac{R_L}{R_L + R_o} \cdot v_i$$
+
+#### 2. Descripción Gráfica
+La relación entre entradas y salidas se representa de forma visual mediante diagramas cartesianos. Existen tres variantes principales:
+- **Curva de Transferencia**: Consiste en representar el valor instantáneo de la señal de salida frente al valor instantáneo de la señal de entrada. Muestra de forma directa las zonas operativas lineales (pendientes constantes) y las zonas no lineales (recortes y niveles de saturación).
+- **Diagrama Temporal**: Representación simultánea de las señales de entrada y de salida representadas frente a la variable del tiempo.
+- **Diagrama Frecuencial**: Representación de características operativas del circuito (como la ganancia en decibelios o el desfase en grados) frente al cambio en la frecuencia de la señal de entrada.
