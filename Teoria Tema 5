@@ -1,0 +1,143 @@
+# Teoría Tema 5: Circuitos Secuenciales y Máquinas de Estado - Electrónica Industrial
+
+## Índice de Contenidos
+- [1. Introducción a los Circuitos Secuenciales](#1-introducción-a-los-circuitos-secuenciales)
+- [2. Elementos de Memoria: Biestables](#2-elementos-de-memoria-biestables)
+  - [Clasificación de Biestables](#clasificación-de-biestables)
+  - [Ecuaciones Características de Biestables Síncronos](#ecuaciones-características-de-biestables-síncronos)
+  - [Entradas Asíncronas (Preset y Clear)](#entradas-asíncronas-preset-y-clear)
+- [3. Clasificación de Autómatas (Máquinas de Estado Finitas)](#3-clasificación-de-autómatas-máquinas-de-estado-finitas)
+  - [Autómata de Mealy](#autómata-de-mealy)
+  - [Autómata de Moore](#autómata-de-moore)
+- [4. Metodología de Diseño de Circuitos Secuenciales Síncronos](#4-metodología-de-diseño-de-circuitos-secuenciales-síncronos)
+  - [Fase 1: Diagrama de Estados/Salida](#fase-1-diagrama-de-estadossalida)
+  - [Fase 2: Tabla de Estados/Salida](#fase-2-tabla-de-estadossalida)
+  - [Fase 3: Reducción de la Tabla de Estados](#fase-3-reducción-de-la-tabla-de-estados)
+  - [Fase 4: Tabla de Transiciones (Asignamiento de Estados)](#fase-4-tabla-de-transiciones-asignamiento-de-estados)
+  - [Fase 5: Tabla de Excitación (JK y D)](#fase-5-tabla-de-excitación-jk-y-d)
+  - [Fase 6: Ecuaciones de Excitación y Salida](#fase-6-ecuaciones-de-excitación-y-salida)
+  - [Fase 7: Dibujar el Circuito Final](#fase-7-dibujar-el-circuito-final)
+
+---
+
+## 1. Introducción a los Circuitos Secuenciales
+
+Un circuito secuencial es aquel sistema lógico en el cual las salidas no dependen únicamente de los valores actuales de las variables de entrada, sino también de la historia pasada de las entradas (almacenada en forma de estados internos en elementos de memoria). Su comportamiento se rige por:
+- **Variables de entrada**:
+$$x_k$$
+- **Variables de salida**:
+$$z_m$$
+- **Variables de estado actual**:
+$$q_n$$
+- **Variables de estado siguiente**:
+$$Q_n$$
+o también representado como:
+$$q_n^+$$
+
+---
+
+## 2. Elementos de Memoria: Biestables
+
+### Clasificación de Biestables
+1. **Según la Señal de Control (Reloj)**:
+   - **Asíncronos (Latches)**: No disponen de entrada de reloj. Las entradas de datos actúan y modifican el estado de forma directa en cualquier momento.
+   - **Síncronos (Flip-Flops)**: Disponen de una señal de reloj de control:
+$$\text{CLK}$$
+     Las entradas de datos solo actúan sobre el estado interno cuando la señal del reloj lo permite.
+2. **Según el Tipo de Activación del Reloj**:
+   - **Activos por Nivel**: El cambio se permite de forma continua durante la fase activa alta (1 lógico) o baja (0 lógico) de la señal de reloj.
+   - **Activos por Flanco (Disparados)**: El cambio de estado ocurre exclusivamente en el instante preciso de la transición lógica del reloj:
+     - Flanco de subida:
+$$0 \to 1$$
+     - Flanco de bajada:
+$$1 \to 0$$
+
+### Ecuaciones Características de Biestables Síncronos
+
+#### Biestable D
+El estado siguiente toma el valor de la entrada de datos:
+$$q^+ = D$$
+
+#### Biestable JK
+El estado siguiente depende de las entradas de control J y K:
+$$q^+ = J \cdot \bar{q} + \bar{K} \cdot q$$
+
+#### Biestable T
+El estado siguiente conmuta si la entrada T está activa:
+$$q^+ = T \oplus q = T \cdot \bar{q} + \bar{T} \cdot q$$
+
+---
+
+### Entradas Asíncronas (Preset y Clear)
+
+Son entradas especiales utilizadas para inicializar o forzar al biestable a un estado conocido de forma inmediata, con prioridad absoluta sobre el reloj y las entradas síncronas.
+- **Entrada de puesta a 0 (CLEAR)**: Al activarse, fuerza el estado del biestable inmediatamente a:
+$$q^+ = 0$$
+- **Entrada de puesta a 1 (PRESET)**: Al activarse, fuerza el estado del biestable inmediatamente a:
+$$q^+ = 1$$
+- Ambas entradas pueden configurarse para ser activas a nivel alto (1 lógico) o activo a nivel bajo (0 lógico).
+
+---
+
+## 3. Clasificación de Autómatas (Máquinas de Estado Finitas)
+
+### Autómata de Mealy
+- **Definición**: Las salidas son función tanto del estado actual como de las entradas presentes:
+$$z = f(x, \, q)$$
+- **Comportamiento Temporal**: La salida puede cambiar de forma asíncrona en mitad de un ciclo de reloj si se produce un cambio en las variables de entrada de manera directa.
+- **Número de Estados**: Tiende a requerir un número menor de estados que una máquina de Moore equivalente para resolver el mismo problema.
+
+### Autómata de Moore
+- **Definición**: Las salidas son función exclusiva del estado interno actual del circuito:
+$$z = f(q)$$
+- **Comportamiento Temporal**: La salida solo cambia sincrónicamente en los flancos activos del reloj cuando se produce una transición de estado.
+- **Número de Estados**: Generalmente mayor que la máquina de Mealy.
+
+---
+
+## 4. Metodología de Diseño de Circuitos Secuenciales Síncronos
+
+### Fase 1: Diagrama de Estados/Salida
+Representación gráfica del comportamiento del circuito mediante nodos (estados) y flechas dirigidas (transiciones):
+- En **Mealy**, las flechas se etiquetan con la relación:
+$$\text{Entrada / Salida}$$
+- En **Moore**, los nodos contienen la relación:
+$$\frac{\text{Estado}}{\text{Salida}}$$
+  y las flechas se etiquetan con el valor de la entrada.
+
+### Fase 2: Tabla de Estados/Salida
+Trascripción del diagrama a formato tabular indicando para cada estado actual y combinación de entrada, el estado siguiente y el valor de la salida.
+
+### Fase 3: Reducción de la Tabla de Estados
+- Consiste en agrupar estados equivalentes en uno solo para minimizar la cantidad de hardware.
+- Dos estados son **equivalentes** si para cualquier combinación posible de entrada producen la misma salida lógica y transicionan a estados siguientes que son equivalentes entre sí.
+
+### Fase 4: Tabla de Transiciones (Asignamiento de Estados)
+- Consiste en codificar binariamente los estados lógicos mediante variables de biestables:
+$$q_1 q_0$$
+- Se debe determinar el número mínimo de biestables necesarios:
+$$N$$
+  mediante la relación con el número de estados:
+$$M$$
+$$2^{N-1} < M \le 2^N$$
+- Se recomienda asignar los códigos siguiendo la secuencia de código Gray para reducir riesgos lógicos (glitches). Las combinaciones no utilizadas en el diseño se rellenan con inespecificaciones ("X").
+
+### Fase 5: Tabla de Excitación (JK y D)
+Se determinan las entradas necesarias de los biestables para lograr los cambios de estado indicados en la tabla de transiciones:
+- **Para Biestable D**:
+$$D = q^+$$
+- **Para Biestable JK (Transición de estado actual a siguiente)**:
+  - Transición de 0 a 0:
+$$J = 0 \quad , \quad K = \text{X}$$
+  - Transición de 0 a 1:
+$$J = 1 \quad , \quad K = \text{X}$$
+  - Transición de 1 a 0:
+$$J = \text{X} \quad , \quad K = 1$$
+  - Transición de 1 a 1:
+$$J = \text{X} \quad , \quad K = 0$$
+
+### Fase 6: Ecuaciones de Excitación y Salida
+Se obtienen las expresiones lógicas mínimas para las entradas de cada biestable y para las salidas del circuito en formato Suma de Productos (SOP) o Producto de Sumas (POS) a través de mapas de Karnaugh.
+
+### Fase 7: Dibujar el Circuito Final
+Se dibuja el esquema lógico interconectando las puertas lógicas obtenidas con las entradas de reloj y datos de los correspondientes biestables.
