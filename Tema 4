@@ -1,0 +1,18 @@
+Función de 3 variables de entrada con 4 inespecificaciones:
+- **Variables de entrada**:
+$$A$$
+$$B$$
+$$C$$
+- **Condición**: No se puede dar que dos o más entradas estén a 1 simultáneamente (lo que genera las 4 inespecificaciones en las combinaciones correspondientes). Para las combinaciones restantes, la salida es 1 si al menos una de las entradas está a 1, y 0 si todas están a 0.
+
+#### Tabla de Verdad
+| Entrada A | Entrada B | Entrada C | Salida F |
+|---|---|---|---|
+| 0 | 0 | 0 | 0 |
+| 0 | 0 | 1 | 1 |
+| 0 | 1 | 0 | 1 |
+| 0 | 1 | 1 | \text{X} |
+| 1 | 0 | 0 | 1 |
+| 1 | 0 | 1 | \text{X} |
+| 1 | 1 | 0 | \text{X} |
+| 1 | 1 | 1 | \text{X} |
