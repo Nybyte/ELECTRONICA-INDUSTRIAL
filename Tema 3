@@ -1,0 +1,251 @@
+# Tema 3: Respuesta en Frecuencia - Electrónica Industrial
+
+## Índice de Contenidos
+- [1. Polo Real Doble](#1-polo-real-doble)
+- [2. Respuesta en Frecuencia del Op-Amp en Lazo Abierto](#2-respuesta-en-frecuencia-del-op-amp-en-lazo-abierto)
+- [3. Filtros Activos de Primer Orden (Paso de Baja y Paso de Alta)](#3-filtros-activos-de-primer-orden-paso-de-baja-y-paso-de-alta)
+  - [Filtro Paso de Baja](#filtro-paso-de-baja)
+  - [Filtro Paso de Alta](#filtro-paso-de-alta)
+- [4. Formas de Clasificación de Filtros](#4-formas-de-clasificación-de-filtros)
+  - [Criterios Generales de Clasificación](#criterios-generales-de-clasificación)
+  - [Tipos de Filtros Ideales según la Modificación del Espectro](#tipos-de-filtros-ideales-según-la-modificación-del-espectro)
+- [5. Amplificadores Acoplados en Alterna](#5-amplificadores-acoplados-en-alterna)
+
+---
+
+## 1. Polo Real Doble
+
+### Expresión Matemática Exacta
+$$T(j\omega) = \frac{1}{\left(1 + j\frac{\omega}{\omega_o}\right)^2}$$
+
+### Expresión Aproximada del Módulo
+$$|T(j\omega)|_{\text{dB}} \approx \begin{cases} 0\text{ dB} & \text{para } \omega \le \omega_o \\ -40 \cdot \log\left(\frac{\omega}{\omega_o}\right)\text{ dB} & \text{para } \omega > \omega_o \end{cases}$$
+
+### Diagrama de Bode Aproximado de la Fase
+- **Fase a Bajas Frecuencias**:
+$$\omega < 0.1\omega_o \implies \text{Fase} = 0^\circ$$
+- **Fase en la Frecuencia del Polo**:
+$$\omega = \omega_o \implies \text{Fase} = -90^\circ$$
+- **Fase a Altas Frecuencias**:
+$$\omega > 10\omega_o \implies \text{Fase} = -180^\circ$$
+- **Pendiente del Diagrama Asintótico**: la transición de fase se modela con una pendiente constante de:
+$$-90^\circ/\text{década}$$
+en la zona de frecuencias:
+$$[0.1\omega_o, \, 10\omega_o]$$
+
+---
+
+## 2. Respuesta en Frecuencia del Op-Amp en Lazo Abierto
+
+### Descripción Matemática
+$$A_v(jf) = \frac{A_o}{1 + j\frac{f}{f_b}}$$
+
+### Definición de Parámetros
+- **Ganancia en Continua**:
+$$A_o$$
+Es la ganancia de tensión del operacional en modo diferencial para señales de corriente continua o frecuencia cero.
+- **Frecuencia de Corte**:
+$$f_b$$
+Frecuencia a partir de la cual la ganancia cae a una razón de:
+$$-20\text{ dB/década}$$
+y corresponde al punto donde el módulo ha caído:
+$$3\text{ dB}$$
+respecto a su valor en continua:
+$$A_o$$
+- **Frecuencia de Transición**:
+$$f_t$$
+Frecuencia para la cual el módulo de la ganancia es de:
+$$1$$
+lo que equivale en decibelios a:
+$$0\text{ dB}$$
+
+### Diagrama de Bode del Módulo
+- **Zona de Baja Frecuencia**:
+$$f < f_b \implies |A_v|_{\text{dB}} \approx 20 \cdot \log(A_o)\text{ dB}$$
+- **Zona de Alta Frecuencia**:
+$$f > f_b \implies \text{Pendiente} = -20\text{ dB/década}$$
+- La ganancia cruza el eje de abscisas en la frecuencia de transición:
+$$f_t$$
+
+---
+
+## 3. Filtros Activos de Primer Orden (Paso de Baja y Paso de Alta)
+
+### Filtro Paso de Baja
+
+#### Descripción del Circuito
+- Amplificador operacional ideal en configuración inversora.
+- **Rama de Entrada**: resistencia de valor:
+$$R_1$$
+- **Rama de Realimentación**: resistencia de valor en paralelo con condensador de capacidad:
+$$R_2$$
+$$C$$
+
+#### Obtención de la Ganancia de Tensión
+- **Función de Transferencia Inversora**:
+$$A_v(s) = -\frac{Z_2(s)}{R_1}$$
+- **Impedancia de la Rama de Realimentación**:
+  - Impedancia paralela equivalente:
+$$Z_2$$
+$$Z_2(s) = R_2 \parallel \frac{1}{sC} = \frac{R_2}{1 + sR_2C}$$
+- **Sustitución en la Ganancia**:
+$$A_v(s) = -\frac{R_2}{R_1} \cdot \frac{1}{1 + sR_2C}$$
+- **Expresión en Forma Normalizada**:
+$$A_v(s) = K \cdot \frac{1}{1 + \frac{s}{\omega_o}}$$
+donde las constantes se definen como:
+  - Ganancia en banda de paso:
+$$K = -\frac{R_2}{R_1}$$
+  - Frecuencia del polo (corte):
+$$\omega_o = \frac{1}{R_2C}$$
+donde la unidad es:
+$$\text{rad/s}$$
+
+#### Diagrama de Bode del Módulo
+- **Zona Plana (Banda de Paso)**:
+$$\omega < \omega_o \implies |A_v|_{\text{dB}} \approx 20 \cdot \log|K|\text{ dB}$$
+- **Atenuación a Frecuencia de Corte**:
+$$\omega = \omega_o \implies |A_v|_{\text{dB}} = 20 \cdot \log|K| - 3\text{ dB}$$
+- **Zona de Caída (Banda de Atenuación)**:
+$$\omega > \omega_o \implies \text{Pendiente} = -20\text{ dB/década}$$
+
+### Filtro Paso de Alta
+
+#### Descripción del Circuito
+- Amplificador operacional ideal en configuración inversora.
+- **Rama de Entrada**: resistencia en serie con condensador de capacidad:
+$$R_1$$
+$$C$$
+- **Rama de Realimentación**: resistencia de valor:
+$$R_2$$
+
+#### Obtención de la Ganancia de Tensión
+- **Función de Transferencia Inversora**:
+$$A_v(s) = -\frac{Z_2(s)}{Z_1(s)}$$
+- **Impedancia de la Rama de Entrada**:
+  - Impedancia serie de entrada:
+$$Z_1$$
+$$Z_1(s) = R_1 + \frac{1}{sC} = \frac{sR_1C + 1}{sC}$$
+- **Impedancia de la Rama de Realimentación**:
+$$Z_2(s) = R_2$$
+- **Sustitución en la Ganancia**:
+$$A_v(s) = -\frac{R_2}{\frac{sR_1C + 1}{sC}} = -\frac{sR_2C}{1 + sR_1C}$$
+- **Expresión en Forma Normalizada**:
+$$A_v(s) = K \cdot \frac{1}{1 + \frac{\omega_{p1}}{s}}$$
+donde los parámetros de diseño representan:
+  - Ganancia máxima en la banda de paso (alta frecuencia):
+$$K = -\frac{R_2}{R_1}$$
+  - Frecuencia del polo (corte):
+$$\omega_{p1} = \frac{1}{R_1C}$$
+donde la unidad es:
+$$\text{rad/s}$$
+
+#### Diagrama de Bode del Módulo
+- **Zona de Atenuación (Bajas Frecuencias)**:
+$$\omega < \omega_{p1} \implies \text{Pendiente} = +20\text{ dB/década}$$
+- **Atenuación a Frecuencia de Corte**:
+$$\omega = \omega_{p1} \implies |A_v|_{\text{dB}} = 20 \cdot \log|K| - 3\text{ dB}$$
+- **Banda de Paso (Altas Frecuencias)**:
+$$\omega > \omega_{p1} \implies |A_v|_{\text{dB}} \approx 20 \cdot \log|K|\text{ dB}$$
+
+---
+
+## 4. Formas de Clasificación de Filtros
+
+### Criterios Generales de Clasificación
+1. **Según la Tecnología de Fabricación**:
+   - **Pasivo**: Se construye únicamente con elementos pasivos, que son:
+     - Resistencias:
+$$\text{R}$$
+     - Condensadores:
+$$\text{C}$$
+     - Inductores (bobinas):
+$$\text{L}$$
+   - **Activo**: Utiliza resistencias y condensadores combinados con dispositivos activos de amplificación (amplificadores operacionales), permitiendo prescindir de bobinas.
+   - **Digital**: Convierte la señal analógica original en binaria mediante un conversor analógico-digital (A/D), realiza el filtrado mediante operaciones aritméticas en un procesador digital y la reconvierte en analógica mediante un conversor digital-analógico (D/A).
+2. **Según la Expresión Matemática de la Ganancia**:
+   Se define por el número de polos que presenta su función de transferencia:
+   - **Primer Orden**: Función con un único polo de ganancia.
+   - **Segundo Orden**: Función con dos polos de ganancia.
+   - **Tercer Orden**: Función con tres polos de ganancia.
+
+---
+
+### Tipos de Filtros Ideales según la Modificación del Espectro
+
+#### 1. Filtro Paso Bajo
+- **Descripción Verbal**: Deja pasar todas las componentes espectrales de la señal de entrada cuyas frecuencias están por debajo de una determinada frecuencia de corte:
+$$\omega_c$$
+y atenúa completamente (elimina) todas las componentes con frecuencias superiores.
+- **Diagrama de Bode de Módulo Ideal**:
+  - Para frecuencias inferiores:
+$$\omega < \omega_c \implies |A|_{\text{dB}} = 20 \cdot \log|K|\text{ dB}$$
+  - Para frecuencias superiores:
+$$\omega > \omega_c \implies |A|_{\text{dB}} \to -\infty\text{ dB}$$
+
+#### 2. Filtro Paso Alto
+- **Descripción Verbal**: Deja pasar todas las componentes espectrales de la señal de entrada cuyas frecuencias están por encima de una determinada frecuencia de corte:
+$$\omega_c$$
+y atenúa completamente (elimina) todas las componentes con frecuencias inferiores.
+- **Diagrama de Bode de Módulo Ideal**:
+  - Para frecuencias inferiores:
+$$\omega < \omega_c \implies |A|_{\text{dB}} \to -\infty\text{ dB}$$
+  - Para frecuencias superiores:
+$$\omega > \omega_c \implies |A|_{\text{dB}} = 20 \cdot \log|K|\text{ dB}$$
+
+#### 3. Filtro Paso Banda
+- **Descripción Verbal**: Deja pasar todas las componentes espectrales de la señal de entrada cuyas frecuencias se encuentran en un rango delimitado por dos frecuencias de corte (frecuencia de corte baja y alta):
+$$\omega_L$$
+$$\omega_H$$
+y atenúa completamente todas las componentes cuyas frecuencias están fuera de este intervalo.
+- **Diagrama de Bode de Módulo Ideal**:
+  - Para frecuencias fuera de la banda:
+$$\omega < \omega_L \quad \text{o} \quad \omega > \omega_H \implies |A|_{\text{dB}} \to -\infty\text{ dB}$$
+  - Para frecuencias dentro de la banda:
+$$\omega_L < \omega < \omega_H \implies |A|_{\text{dB}} = 20 \cdot \log|K|\text{ dB}$$
+
+#### 4. Filtro Rechazo Banda
+- **Descripción Verbal**: Elimina todas las componentes espectrales cuyas frecuencias se encuentran en un rango delimitado por dos frecuencias de corte:
+$$\omega_L$$
+$$\omega_H$$
+y deja pasar sin alteración todas las componentes cuyas frecuencias están fuera de dicho rango.
+- **Diagrama de Bode de Módulo Ideal**:
+  - Para frecuencias fuera de la banda:
+$$\omega < \omega_L \quad \text{o} \quad \omega > \omega_H \implies |A|_{\text{dB}} = 20 \cdot \log|K|\text{ dB}$$
+  - Para frecuencias dentro de la banda:
+$$\omega_L < \omega < \omega_H \implies |A|_{\text{dB}} \to -\infty\text{ dB}$$
+
+---
+
+## 5. Amplificadores Acoplados en Alterna
+
+### Descripción Verbal
+Son aquellos amplificadores compuestos por múltiples etapas amplificadoras acopladas en cascada mediante condensadores de acoplamiento. Su propósito principal es bloquear el paso de corriente continua entre etapas, de manera que el punto de polarización de cada una de ellas permanezca independiente, permitiendo únicamente el paso de las señales variables o alternas.
+
+### Respuesta en Frecuencia Típica
+Posee la forma de un filtro paso banda. La atenuación a bajas frecuencias se debe a la reactancia de los condensadores de acoplamiento y desacoplamiento. La atenuación a altas frecuencias se debe a las capacidades parásitas internas de los dispositivos activos (transistores).
+
+### Parámetros Característicos
+- **Ganancia a Frecuencias Medias**:
+$$A_M$$
+Ganancia del amplificador en la zona plana del espectro donde la magnitud no depende del cambio de frecuencia.
+- **Frecuencia de Corte Inferior**:
+$$\omega_L$$
+Frecuencia a la cual la ganancia disminuye en una magnitud de:
+$$3\text{ dB}$$
+con respecto al valor central de frecuencias medias:
+$$|A(\omega_L)|_{\text{dB}} = |A_M|_{\text{dB}} - 3\text{ dB}$$
+donde la unidad es:
+$$\text{rad/s}$$
+- **Frecuencia de Corte Superior**:
+$$\omega_H$$
+Frecuencia a la cual la ganancia decae en una magnitud de:
+$$3\text{ dB}$$
+con respecto al valor central de frecuencias medias:
+$$|A(\omega_H)|_{\text{dB}} = |A_M|_{\text{dB}} - 3\text{ dB}$$
+donde la unidad es:
+$$\text{rad/s}$$
+- **Ancho de Banda (BW)**:
+Rango espectral en el cual la ganancia permanece plana y óptima. Se calcula como:
+$$\text{BW} = \omega_H - \omega_L$$
+donde la unidad es:
+$$\text{rad/s}$$
